@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <RootNamespace>FamilyBudget</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\FamilyBudget.Infrastructure\FamilyBudget.Infrastructure.csproj" />
+    </ItemGroup>
+
+
+</Project>

@@ -1,19 +1,19 @@
 ﻿using System;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using FamilyBudget.Domain.Entities;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace FamilyBudget.Infrastructure.DataAccess
 {
-    public class AppDbContext : IdentityDbContext
+    public class AppDbContext : DbContext
     {
         private readonly IConfiguration _configuration;
-        
+
         public DbSet<FinancialPeriod> FinancialPeriods { get; set; }
-        
+
         public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration configuration)
             : base(options)
         {
@@ -34,7 +34,15 @@ namespace FamilyBudget.Infrastructure.DataAccess
                 .ValueGeneratedOnAdd();
             
             builder.Entity<FinancialPeriod>()
-                .HasData(new {Id=1, Name="First", Created = DateTime.UtcNow, Modified = DateTime.UtcNow});
+                .HasData(new
+                {
+                    Id = 1, 
+                    Name="First", 
+                    Created = DateTime.UtcNow, 
+                    Modified = DateTime.UtcNow,
+                    PeriodBegin = DateTime.UtcNow,
+                    PeriodEnd = DateTime.UtcNow.AddDays(15)
+                });
             base.OnModelCreating(builder);
         }
         

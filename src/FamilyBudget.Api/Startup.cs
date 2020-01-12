@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FamilyBudget.DependencyInjection;
+using FamilyBudget.Domain.Interfaces.DataAccess;
+using FamilyBudget.Domain.Interfaces.Services;
+using FamilyBudget.Domain.Services;
+using FamilyBudget.Infrastructure.DataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,8 +29,12 @@ namespace FamilyBudget.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DbContext>();
+            
+            services.AddScoped(typeof(IRepositoryAsync<>), typeof(Repository<>));
+            services.AddScoped(typeof(IFinancialPeriodService), typeof(FinancialPeriodService));
+
             services.AddControllers();
-            services.RegisterByDIAttribute("FamilyBudget.*");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -29,7 +29,7 @@ namespace FamilyBudget.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DbContext>();
+            services.AddDbContext<AppDbContext>();
             
             services.AddScoped(typeof(IRepositoryAsync<>), typeof(Repository<>));
             services.AddScoped(typeof(IFinancialPeriodService), typeof(FinancialPeriodService));

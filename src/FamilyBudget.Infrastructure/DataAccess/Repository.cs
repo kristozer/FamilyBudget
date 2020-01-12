@@ -10,41 +10,41 @@ namespace FamilyBudget.Infrastructure.DataAccess
 {
     public class Repository<T> : IRepositoryAsync<T> where T : BaseEntity
     {
-        private readonly DbContext _dbContext;
+        private readonly AppDbContext _appDbContext;
         
-        public Repository(DbContext dbcontext)
+        public Repository(AppDbContext dbcontext)
         {
-            _dbContext = dbcontext;
+            _appDbContext = dbcontext;
         }
-        public async Task<T> GetByIdAsync(int id) => await _dbContext.Set<T>().FindAsync(id);
+        public async Task<T> GetByIdAsync(int id) => await _appDbContext.Set<T>().FindAsync(id);
         public async Task<T> GetByIdAsync(int id, ISpecification<T> spec)
         { 
             return await ApplySpecification(spec)
                 .FirstOrDefaultAsync(i=>i.Id == id);
         }
-        public async Task<IReadOnlyList<T>> GetAllAsync() => await _dbContext.Set<T>().ToListAsync();
+        public async Task<IReadOnlyList<T>> GetAllAsync() => await _appDbContext.Set<T>().ToListAsync();
         public async Task<IReadOnlyList<T>> GetFilteredAsync(ISpecification<T> spec) => await ApplySpecification(spec).ToListAsync();
         public async Task<int> CountAsync(ISpecification<T> spec) => await ApplySpecification(spec).CountAsync();
         public async Task<T> AddAsync(T entity)
         {
-            _dbContext.Set<T>().Add(entity);
-            await _dbContext.SaveChangesAsync();
+            _appDbContext.Set<T>().Add(entity);
+            await _appDbContext.SaveChangesAsync();
 
             return entity;
         }
         public async Task UpdateAsync(T entity)
         {
-            _dbContext.Entry(entity).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
+            _appDbContext.Entry(entity).State = EntityState.Modified;
+            await _appDbContext.SaveChangesAsync();
         }
         public async Task DeleteAsync(T entity)
         {
-            _dbContext.Set<T>().Remove(entity);
-            await _dbContext.SaveChangesAsync();
+            _appDbContext.Set<T>().Remove(entity);
+            await _appDbContext.SaveChangesAsync();
         }
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
-            return SpecificationExecutor<T>.GetQuery(_dbContext.Set<T>().AsQueryable(), spec);
+            return SpecificationExecutor<T>.GetQuery(_appDbContext.Set<T>().AsQueryable(), spec);
         }
     }
 }

@@ -59,7 +59,7 @@ namespace FamilyBudget.DependencyInjection
             {
                 result = result
                     .SelectMany(x => type.GetInterfaces()
-                        .Where(i => i.Namespace.StartsWith("Moedelo"))
+                        .Where(i => i.Namespace.StartsWith("FamilyBudget"))
                         .Select(service => (Service: service, x.Implementation, x.Lifetime)))
                     .ToArray();
             }

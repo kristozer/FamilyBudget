@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FamilyBudget.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20200112145521_Init")]
+    [Migration("20200113011149_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,17 +47,6 @@ namespace FamilyBudget.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FinancialPeriods");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Created = new DateTime(2020, 1, 12, 14, 55, 10, 429, DateTimeKind.Utc).AddTicks(249),
-                            Modified = new DateTime(2020, 1, 12, 14, 55, 10, 429, DateTimeKind.Utc).AddTicks(262),
-                            Name = "First",
-                            PeriodBegin = new DateTime(2020, 1, 12, 14, 55, 10, 429, DateTimeKind.Utc).AddTicks(263),
-                            PeriodEnd = new DateTime(2020, 1, 27, 14, 55, 10, 429, DateTimeKind.Utc).AddTicks(263)
-                        });
                 });
 #pragma warning restore 612, 618
         }

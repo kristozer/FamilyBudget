@@ -23,11 +23,6 @@ namespace FamilyBudget.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_FinancialPeriods", x => x.Id);
                 });
-
-            migrationBuilder.InsertData(
-                table: "FinancialPeriods",
-                columns: new[] { "Id", "Created", "Modified", "Name", "PeriodBegin", "PeriodEnd" },
-                values: new object[] { 1, new DateTime(2020, 1, 12, 14, 55, 10, 429, DateTimeKind.Utc).AddTicks(249), new DateTime(2020, 1, 12, 14, 55, 10, 429, DateTimeKind.Utc).AddTicks(262), "First", new DateTime(2020, 1, 12, 14, 55, 10, 429, DateTimeKind.Utc).AddTicks(263), new DateTime(2020, 1, 27, 14, 55, 10, 429, DateTimeKind.Utc).AddTicks(263) });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

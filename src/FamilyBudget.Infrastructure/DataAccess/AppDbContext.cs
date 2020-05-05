@@ -33,16 +33,6 @@ namespace FamilyBudget.Infrastructure.DataAccess
                 .Property(f => f.Id)
                 .ValueGeneratedOnAdd();
             
-            builder.Entity<FinancialPeriod>()
-                .HasData(new
-                {
-                    Id = 1, 
-                    Name="First", 
-                    Created = DateTime.UtcNow, 
-                    Modified = DateTime.UtcNow,
-                    PeriodBegin = DateTime.UtcNow,
-                    PeriodEnd = DateTime.UtcNow.AddDays(15)
-                });
             base.OnModelCreating(builder);
         }
         

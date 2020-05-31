@@ -29,9 +29,8 @@ namespace FamilyBudget.Infrastructure.DataAccess
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<FinancialPeriod>()
-                .Property(f => f.Id)
-                .ValueGeneratedOnAdd();
+            builder.Entity<Expenditure>()
+                .ToTable("Expenditures");
             
             base.OnModelCreating(builder);
         }

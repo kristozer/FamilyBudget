@@ -4,14 +4,16 @@ using FamilyBudget.Infrastructure.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FamilyBudget.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200531120828_Add_Expenditures")]
+    partial class Add_Expenditures
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,7 +48,7 @@ namespace FamilyBudget.Infrastructure.Migrations
 
                     b.HasIndex("FinancialPeriodId");
 
-                    b.ToTable("Expenditures");
+                    b.ToTable("Expenditure");
                 });
 
             modelBuilder.Entity("FamilyBudget.Domain.Entities.FinancialPeriod", b =>

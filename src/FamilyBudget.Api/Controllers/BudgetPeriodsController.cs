@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FamilyBudget.Api.Mappers;
+using FamilyBudget.Api.ViewModels;
 using FamilyBudget.Domain.Entities;
 using FamilyBudget.Domain.Interfaces;
 using FamilyBudget.Domain.Interfaces.Services;
@@ -26,9 +28,10 @@ namespace FamilyBudget.Api.Controllers
 
 
         [HttpGet]
-        public async Task<IReadOnlyList<FinancialPeriod>> Get()
+        public async Task<IReadOnlyList<FinancialPeriodDto>> Get()
         {
-            return await _financialPeriodService.GetAll();
+            var financialPeriods = await _financialPeriodService.GetAll();
+            return financialPeriods.Select(p => p.ToDto()).ToList();
         }
     }
 }

@@ -9,7 +9,7 @@ namespace FamilyBudget.Domain.Interfaces.DataAccess
         Task<T> GetByIdAsync(int id);
         Task<T> GetByIdAsync(int id, ISpecification<T> spec);
         Task<IReadOnlyList<T>> GetAllAsync();
-        Task<IReadOnlyList<T>> GetFilteredAsync(ISpecification<T> spec);
+        Task<IReadOnlyList<T>> GetWithSpecificationAsync(ISpecification<T> spec);
         Task<T> AddAsync(T entity);
         Task UpdateAsync(T entity);
         Task DeleteAsync(T entity);

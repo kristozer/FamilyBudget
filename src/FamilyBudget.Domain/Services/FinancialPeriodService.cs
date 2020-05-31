@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FamilyBudget.Domain.Entities;
 using FamilyBudget.Domain.Interfaces.Services;
 using FamilyBudget.Domain.Interfaces.DataAccess;
+using FamilyBudget.Domain.Specifications;
 
 namespace FamilyBudget.Domain.Services
 {
@@ -19,7 +20,7 @@ namespace FamilyBudget.Domain.Services
 
         public async Task<IReadOnlyList<FinancialPeriod>> GetAll()
         {
-            return await _repository.GetAllAsync();
+            return await _repository.GetWithSpecificationAsync(new FinancialPeriodWithExpendituresSpecification());
         }
 
         public async Task Save(FinancialPeriod period)

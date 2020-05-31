@@ -23,7 +23,7 @@ namespace FamilyBudget.Infrastructure.DataAccess
                 .FirstOrDefaultAsync(i=>i.Id == id);
         }
         public async Task<IReadOnlyList<T>> GetAllAsync() => await _appDbContext.Set<T>().ToListAsync();
-        public async Task<IReadOnlyList<T>> GetFilteredAsync(ISpecification<T> spec) => await ApplySpecification(spec).ToListAsync();
+        public async Task<IReadOnlyList<T>> GetWithSpecificationAsync(ISpecification<T> spec) => await ApplySpecification(spec).ToListAsync();
         public async Task<int> CountAsync(ISpecification<T> spec) => await ApplySpecification(spec).CountAsync();
         public async Task<T> AddAsync(T entity)
         {

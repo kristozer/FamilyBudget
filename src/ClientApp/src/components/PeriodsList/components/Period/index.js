@@ -12,8 +12,16 @@ class Period extends Component {
 		return date.getDate().toString().padStart(2,'0')+'.'+(date.getMonth()+1).toString().padStart(2,'0')+'.'+date.getFullYear();
 	};
 
+	createExpenditures = (expenditures) => {
+		return expenditures.map((value, index) => {
+			const listNumber = index+1;
+			return <Typography variant='subtitle1' display='block' key={value.id}>{listNumber}. {value.name}: {value.value}</Typography>
+		});
+	};
+
 	render() {
-		const {data: {periodBegin, periodEnd, income}} = this.props;
+		const {data: {periodBegin, periodEnd, income, expenditures}} = this.props;
+		const expendituresRender = this.createExpenditures(expenditures);
 
 		return (
 			<Paper style={{margin: 'auto'}}>
@@ -31,6 +39,9 @@ class Period extends Component {
 						<IconButton aria-label="edit" color="primary" size="small" component="span">
 							<EditIcon fontSize="small" />
 						</IconButton>
+					</Grid>
+					<Grid item xs={12}>
+						<ol>{expendituresRender}</ol>
 					</Grid>
 				</Grid>
 			</Paper>

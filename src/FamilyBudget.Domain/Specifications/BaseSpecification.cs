@@ -17,6 +17,10 @@ namespace FamilyBudget.Domain.Specifications
         public int Skip { get; private set; }
         public bool isPagingEnabled { get; private set; } = false;
 
+        protected BaseSpecification()
+        {
+        }
+
         protected BaseSpecification(Expression<Func<T, bool>> criteria)
         {
             Criteria = criteria;

@@ -31,6 +31,13 @@ namespace FamilyBudget.Infrastructure.DataAccess
         {
             builder.Entity<Expenditure>()
                 .ToTable("Expenditures");
+            builder.Entity<Expenditure>()
+                .HasOne(p => p.PlannedExpenditure)
+                .WithOne(e => e.Expenditure)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            builder.Entity<PlannedExpenditure>()
+                .ToTable("PlannedExpenditures");
             
             base.OnModelCreating(builder);
         }

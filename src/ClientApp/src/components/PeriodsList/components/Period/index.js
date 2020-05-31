@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {Grid, Paper, Typography, IconButton} from '@material-ui/core';
-import {Edit as EditIcon} from '@material-ui/icons';
+import {Edit as EditIcon, Settings as SettingsIcon} from '@material-ui/icons';
 
 class Period extends Component {
 	constructor(props) {
@@ -22,6 +22,9 @@ class Period extends Component {
 						<Typography variant='subtitle1' display='inline'>{this.formatDate(periodBegin)}</Typography>
 						<Typography variant='subtitle1' display='inline'> - </Typography>
 						<Typography variant='subtitle1' display='inline'>{this.formatDate(periodEnd)}</Typography>
+						<IconButton aria-label="edit" color="primary" size="small" component="span">
+							<SettingsIcon fontSize="small" />
+						</IconButton>
 					</Grid>
 					<Grid item xs={12}>
 						<Typography variant='subtitle1' display='inline'>Доход: {income}</Typography>

@@ -13,12 +13,14 @@ class App extends Component {
 	}
 
 	render() {
-		const periodsRender = this.state.isLoading? <CircularProgress /> : <PeriodsList data={this.state.data} />;
+		const periodsRender = this.state.isLoading ? <CircularProgress/> : <PeriodsList data={this.state.data}/>;
 
 		return (
 			<div>
 				<NavBar/>
-				{periodsRender}
+				<div style={{padding: 15}}>
+					{periodsRender}
+				</div>
 			</div>
 		);
 	}

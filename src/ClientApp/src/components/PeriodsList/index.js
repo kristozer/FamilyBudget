@@ -14,7 +14,7 @@ class PeriodsList extends Component {
 
 		const items = data.map(d => {
 			return (
-				<Grid key={d.id} item container xs={itemSize}>
+				<Grid key={d.id} item container xs={12} sm={itemSize} spacing={3}>
 					<Period data={d} />
 				</Grid>
 			);

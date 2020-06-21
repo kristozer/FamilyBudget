@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Grid, Paper } from '@material-ui/core';
 import Period from './components/Period';
-import style from './style.css';
 
 class PeriodsList extends Component {
 	constructor(props) {
@@ -14,7 +13,7 @@ class PeriodsList extends Component {
 
 		const items = data.map(d => {
 			return (
-				<Grid key={d.id} item container xs={12} sm={itemSize} spacing={3}>
+				<Grid key={d.id} item xs={12} sm={itemSize}>
 					<Period data={d} />
 				</Grid>
 			);

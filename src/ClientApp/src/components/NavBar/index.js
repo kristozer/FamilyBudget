@@ -9,7 +9,7 @@ const NavBar = () => {
 			<AppBar position='static'>
 				<Toolbar>
 					<Typography variant='subtitle1' color='inherit'>
-						React&Material UI sample AppBar
+						Family Budget
 					</Typography>
 				</Toolbar>
 			</AppBar>

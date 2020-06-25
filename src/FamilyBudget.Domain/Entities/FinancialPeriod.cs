@@ -8,7 +8,7 @@ namespace FamilyBudget.Domain.Entities
         public string Name { get; set; }
         public DateTime PeriodBegin { get; set; }
         public DateTime PeriodEnd { get; set; }
-        public decimal Income { get; set; }
+        public List<Income> Incomes { get; set; }
         public List<Expenditure> Expenditures { get; set; }
     }
 }

@@ -1,2 +1,3 @@
-﻿dotnet ef Migrations add Change_Expenditure2 --startup-project ../FamilyBudget.Api
+﻿cd to infrastructure project folder
+dotnet ef Migrations add Change_Expenditure2 --startup-project ../FamilyBudget.Api
 dotnet ef database update --startup-project ../FamilyBudget.Api

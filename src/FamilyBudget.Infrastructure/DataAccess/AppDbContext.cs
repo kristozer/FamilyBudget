@@ -38,6 +38,9 @@ namespace FamilyBudget.Infrastructure.DataAccess
 
             builder.Entity<PlannedExpenditure>()
                 .ToTable("PlannedExpenditures");
+
+            builder.Entity<Income>()
+                .ToTable("Incomes");
             
             base.OnModelCreating(builder);
         }

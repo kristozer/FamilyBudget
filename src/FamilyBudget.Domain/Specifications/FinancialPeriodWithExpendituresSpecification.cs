@@ -7,6 +7,7 @@ namespace FamilyBudget.Domain.Specifications
         public FinancialPeriodWithExpendituresSpecification()
         {
             AddInclude(f => f.Expenditures);
+            AddInclude(f => f.Incomes);
         }
     }
 }

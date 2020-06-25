@@ -2,6 +2,15 @@ import React, { Component } from 'react';
 import { Container, Paper, Typography, IconButton, Box } from '@material-ui/core';
 import { Edit as EditIcon, Settings as SettingsIcon } from '@material-ui/icons';
 
+const styles = {
+    paper: {
+        margin: '12px auto',
+        display: 'inline-block',
+        whiteSpace: 'nowrap',
+        position: 'relative'
+    }
+};
+
 class Period extends Component {
     constructor(props) {
         super(props);
@@ -22,18 +31,12 @@ class Period extends Component {
     };
 
     render() {
-        const { data: { periodBegin, periodEnd, income, expenditures } } = this.props;
+        const { data: { periodBegin, periodEnd, incomes, expenditures } } = this.props;
         const expendituresRender = this.createExpenditures(expenditures);
+        const income = incomes.reduce((accumulator, currentValue) => accumulator + currentValue.value, 0);
 
         return (
-            <Paper style={{
-                marginLeft: 'auto',
-                marginRight: 'auto',
-                display: 'inline-block',
-                whiteSpace: 'nowrap',
-                margin: '12px',
-                position: 'relative'
-            }} elevation={3}>
+            <Paper style={styles.paper} elevation={3}>
                 <IconButton aria-label="edit" color="primary" size="small" component="span"
                             style={{ position: 'absolute', right: '-10px', top: '0px' }}>
                     <SettingsIcon fontSize="small"/>

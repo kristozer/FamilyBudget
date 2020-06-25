@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Paper, Typography, IconButton, Box } from '@material-ui/core';
+import { Container, Paper, Typography, IconButton, Box, Input } from '@material-ui/core';
 import { Edit as EditIcon, Settings as SettingsIcon } from '@material-ui/icons';
 
 const styles = {
@@ -24,9 +24,13 @@ class Period extends Component {
     createExpenditures = (expenditures) => {
         return expenditures.map((value, index) => {
             const listNumber = index + 1;
-            const text = `${listNumber}. ${value.name}: ${value.value}`;
-            return <Typography variant='subtitle1' display='block'
-                               key={value.id}>{text}</Typography>
+            const text = `${listNumber}. ${value.name}: ${value.plannedToSpendValue}`;
+
+            return (
+            <div key={value.id}>
+                <Typography variant='subtitle1' display='inline'>{text}</Typography>
+                <Input label='Потрачено' size="small" value={value.spendValue} />
+            </div>)
         });
     };
 

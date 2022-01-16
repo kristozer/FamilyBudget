@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import NavBar from './components/NavBar';
 import PeriodsList from './components/PeriodsList';
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@mui/material';
 import periodsListService from './Services/PeriodsListService';
 
 class App extends Component {

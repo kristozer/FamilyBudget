@@ -2,9 +2,9 @@
 
 namespace FamilyBudget.Domain.Specifications
 {
-    public class FinancialPeriodWithExpendituresSpecification : BaseSpecification<FinancialPeriod>
+    public class FinancialPeriodWithExpendituresSpec : BaseSpecification<FinancialPeriod>
     {
-        public FinancialPeriodWithExpendituresSpecification()
+        public FinancialPeriodWithExpendituresSpec()
         {
             AddInclude(f => f.Expenditures);
             AddInclude(f => f.Incomes);

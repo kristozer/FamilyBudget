@@ -20,7 +20,7 @@ namespace FamilyBudget.Domain.Services
 
         public async Task<IReadOnlyList<FinancialPeriod>> GetAll()
         {
-            return await _repository.GetWithSpecificationAsync(new FinancialPeriodWithExpendituresSpecification());
+            return await _repository.GetWithSpecificationAsync(new FinancialPeriodWithExpendituresSpec());
         }
 
         public async Task Save(FinancialPeriod period)

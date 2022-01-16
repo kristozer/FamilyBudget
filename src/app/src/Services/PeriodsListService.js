@@ -1,6 +1,6 @@
 class PeriodsListService {
     async GetPeriods() {
-        const response = await fetch('budgetperiods');
+        const response = await fetch('https://localhost:5001/budgetperiods/');
         return response.json();
     };
 }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Paper } from '@material-ui/core';
+import { Grid, Paper } from '@mui/material';
 import Period from './components/Period';
 
 class PeriodsList extends Component {

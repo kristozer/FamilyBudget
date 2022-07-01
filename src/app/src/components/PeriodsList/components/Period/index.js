@@ -1,70 +1,70 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Container, Paper, Typography, IconButton, Box, Input } from '@mui/material';
+import { inject, observer } from 'mobx-react';
+
+import { Paper, Typography, IconButton, Box } from '@mui/material';
 import { Edit as EditIcon, Settings as SettingsIcon } from '@mui/icons-material';
 import IncomeSettings from '../IncomeSettings';
+import Expedintures from '../Expedintures';
 
 const styles = {
     paper: {
-        margin: '12px auto',
+        margin: '12px 5px',
+        padding: '5px',
         display: 'inline-block',
         whiteSpace: 'nowrap',
         position: 'relative'
     }
 };
 
-const Period = ({ data: { id, periodBegin, periodEnd, incomes, expenditures } }) => {
-    const [isVisibleIncomeSettings, SetIsVisibleIncomeSettings] = useState(false);
+const Period = ({ data: { id, periodBegin, periodEnd, incomes, expenditures }, store }) => {
+    const [isVisibleIncomeSettings, setIsVisibleIncomeSettings] = useState(false);
+
 
     const formatDate = (str) => {
         const date = new Date(str);
         return date.getDate().toString().padStart(2, '0') + '.' + (date.getMonth() + 1).toString().padStart(2, '0') + '.' + date.getFullYear();
     };
 
-    const createExpenditures = (expenditures) => {
-        return expenditures.map((value, index) => {
-            const listNumber = index + 1;
-            const text = `${listNumber}. ${value.name}: ${value.plannedToSpendValue}`;
-
-            return (
-                <div key={value.id}>
-                    <Typography variant='subtitle1' display='inline'>{text}</Typography>
-                    <Input label='Потрачено' size="small" value={value.spendValue}/>
-                </div>)
-        });
+    const income = incomes.reduce((accumulator, currentValue) => accumulator + currentValue.value, 0);
+    const toggleIncomesVisibility = () => {
+        setIsVisibleIncomeSettings(!isVisibleIncomeSettings)
     };
 
-    const expendituresRender = createExpenditures(expenditures);
-    const income = incomes.reduce((accumulator, currentValue) => accumulator + currentValue.value, 0);
-    const toggleIncomesVisibility = () => {SetIsVisibleIncomeSettings(!isVisibleIncomeSettings)};
+    const deleteIncome = (periodId, incomeId) => store.deletePeriodIncome(periodId, incomeId);
+    const addPeriodIncome = (periodId, income) => store.addPeriodIncome(periodId, income);
 
     return (
         <>
             <Paper style={styles.paper} elevation={3}>
                 <IconButton aria-label="edit" color="primary" size="small" component="span"
-                            style={{ position: 'absolute', right: '-10px', top: '0px' }}
+                            style={{ position: 'absolute', right: '-10px', top: '-10px' }}
                             onClick={() => console.log('click')}>
                     <SettingsIcon fontSize="small"/>
                 </IconButton>
-                <Container>
-                    <Box>
-                        <Typography variant='subtitle1' display='inline'>Период: {formatDate(periodBegin)}</Typography>
-                        <Typography variant='subtitle1' display='inline'> - </Typography>
-                        <Typography variant='subtitle1' display='inline'>{formatDate(periodEnd)}</Typography>
-                    </Box>
-                    <Box>
-                        <Typography variant='subtitle1' display='inline'>Доход: {income}</Typography>
-                        <IconButton aria-label="edit" color="primary" size="small" component="span"
-                                    onClick={toggleIncomesVisibility}>
-                            <EditIcon fontSize="small"/>
-                        </IconButton>
-                    </Box>
-                </Container>
                 <Box>
-                    <ol>{expendituresRender}</ol>
+                    <Typography variant='subtitle1' display='inline'>Период: {formatDate(periodBegin)}</Typography>
+                    <Typography variant='subtitle1' display='inline'> - </Typography>
+                    <Typography variant='subtitle1' display='inline'>{formatDate(periodEnd)}</Typography>
                 </Box>
+                <Box>
+                    <Typography variant='subtitle1' display='inline'>Доход: {income}</Typography>
+                    <IconButton aria-label="edit" color="primary" size="small" component="span"
+                                onClick={toggleIncomesVisibility}>
+                        <EditIcon fontSize="small"/>
+                    </IconButton>
+                </Box>
+                <Expedintures data={expenditures}/>
             </Paper>
-            <IncomeSettings periodId={id} isVisible={isVisibleIncomeSettings} onClose={toggleIncomesVisibility} incomes={incomes} />
+            <IncomeSettings
+                periodId={id}
+                isVisible={isVisibleIncomeSettings}
+                onClose={toggleIncomesVisibility}
+                incomes={incomes}
+                deleteIncome={deleteIncome}
+                addPeriodIncome={addPeriodIncome}
+            />
+
         </>
     );
 };
@@ -76,4 +76,4 @@ Period.propTypes = {
     expenditures: PropTypes.array
 };
 
-export default Period;
+export default inject(`store`)(observer(Period));

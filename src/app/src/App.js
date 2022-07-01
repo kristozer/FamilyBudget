@@ -1,25 +1,29 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { Provider } from 'mobx-react';
+
 import NavBar from './components/NavBar';
 import PeriodsList from './components/PeriodsList';
-import { CircularProgress } from '@mui/material';
-import periodsListService from './Services/PeriodsListService';
+import PeriodsStore from './stores/PeriodsStore';
 
 class App extends Component {
-    state = {isLoading: true, data: []};
+    constructor(props) {
+        super(props);
+
+        this.periodsStore = new PeriodsStore();
+    }
 
     async componentDidMount() {
-        const periods = await periodsListService.GetPeriods();
-        this.setState({isLoading: false, data: periods});
+        this.periodsStore.fillPeriods();
     }
 
     render() {
-        const periodsRender = this.state.isLoading ? <CircularProgress/> : <PeriodsList data={this.state.data}/>;
-
         return (
-            <div>
-                <NavBar/>
-                {periodsRender}
-            </div>
+            <Provider store={this.periodsStore}>
+                <div>
+                    <NavBar/>
+                    <PeriodsList/>
+                </div>
+            </Provider>
         );
     }
 }

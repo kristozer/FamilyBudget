@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, IconButton, Stack, Typography } from '@mui/material';
 import { Edit as EditIcon } from '@mui/icons-material';
 import withDrawer from '../../../../hoc/withDrawer';
-import ExpedintureSettings from '../ExpedintureSettings';
+import ExpenditureSettings from '../ExpenditureSettings';
 
 const styles = {
     boldMarginText: {
@@ -14,17 +14,22 @@ const styles = {
     }
 };
 
-const Expedintures = ({ data }) => {
-    const [isVisibleExpedintureSettings, setIsVisibleExpedintureSettings] = useState(false);
-    const [actualId, setActualId] = useState(false);
+const Expenditures = ({ data, onExpenditureChange }) => {
+    const [isVisibleExpenditureSettings, setIsVisibleExpenditureSettings] = useState(false);
+    const [actualExpenditure, setActualExpenditure] = useState({});
 
-    const openExpedintureSettings = id => {
-        setActualId(id);
-        setIsVisibleExpedintureSettings(true);
+    const openExpenditureSettings = expenditure => {
+        setActualExpenditure(expenditure);
+        setIsVisibleExpenditureSettings(true);
     };
 
     const closeExpedintureSettings = () => {
-        setIsVisibleExpedintureSettings(false);
+        setIsVisibleExpenditureSettings(false);
+    };
+
+    const onExpedintureChangeLocal = (id, plannedToSpend, spentValue) => {
+        onExpenditureChange(id, plannedToSpend, spentValue);
+        closeExpedintureSettings();
     };
 
     if (!data) {
@@ -56,7 +61,7 @@ const Expedintures = ({ data }) => {
                                     style={styles.boldMarginText}>{expenditure.spentValue}</Typography>
 
                         <IconButton aria-label="edit" color="primary" size="small" component="span"
-                        onClick={() => openExpedintureSettings(expenditure.id)}>
+                        onClick={() => openExpenditureSettings(expenditure)}>
                             <EditIcon fontSize="small"/>
                         </IconButton>
                     </Box>
@@ -69,8 +74,8 @@ const Expedintures = ({ data }) => {
             <Stack spacing={0.5}>
                 {createItems()}
             </Stack>
-            {withDrawer(<ExpedintureSettings id={actualId}/>, closeExpedintureSettings, isVisibleExpedintureSettings)}
+            {withDrawer(<ExpenditureSettings expenditure={actualExpenditure} onChange={onExpedintureChangeLocal}/>, closeExpedintureSettings, isVisibleExpenditureSettings)}
         </>);
 };
 
-export default Expedintures;
+export default Expenditures;

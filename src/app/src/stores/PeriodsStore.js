@@ -70,6 +70,15 @@ class PeriodsStore {
             });
         }
     };
+
+    changeExpenditure = (id, newPlannedToSpend, newSpentValue) => {
+        const expedinture = this.periods.flatMap(p => p.expenditures).find(e => e.id === id)
+
+        if (expedinture) {
+            expedinture.plannedToSpendValue = newPlannedToSpend;
+            expedinture.spentValue = newSpentValue;
+        }
+    };
 };
 
 export default PeriodsStore;

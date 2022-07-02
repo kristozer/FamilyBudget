@@ -5,7 +5,8 @@ import { inject, observer } from 'mobx-react';
 import { Paper, Typography, IconButton, Box } from '@mui/material';
 import { Edit as EditIcon, Settings as SettingsIcon } from '@mui/icons-material';
 import IncomeSettings from '../IncomeSettings';
-import Expedintures from '../Expedintures';
+import Expenditures from '../Expenditures';
+import withDrawer from '../../../../hoc/withDrawer';
 
 const styles = {
     paper: {
@@ -20,7 +21,6 @@ const styles = {
 const Period = ({ data: { id, periodBegin, periodEnd, incomes, expenditures }, store }) => {
     const [isVisibleIncomeSettings, setIsVisibleIncomeSettings] = useState(false);
 
-
     const formatDate = (str) => {
         const date = new Date(str);
         return date.getDate().toString().padStart(2, '0') + '.' + (date.getMonth() + 1).toString().padStart(2, '0') + '.' + date.getFullYear();
@@ -33,6 +33,7 @@ const Period = ({ data: { id, periodBegin, periodEnd, incomes, expenditures }, s
 
     const deleteIncome = (periodId, incomeId) => store.deletePeriodIncome(periodId, incomeId);
     const addPeriodIncome = (periodId, income) => store.addPeriodIncome(periodId, income);
+    const onExpenditureChange = (id, plannedToSpend, spentValue) => store.changeExpenditure(id, plannedToSpend, spentValue);
 
     return (
         <>
@@ -54,17 +55,14 @@ const Period = ({ data: { id, periodBegin, periodEnd, incomes, expenditures }, s
                         <EditIcon fontSize="small"/>
                     </IconButton>
                 </Box>
-                <Expedintures data={expenditures}/>
+                <Expenditures data={expenditures} onExpenditureChange={onExpenditureChange}/>
             </Paper>
-            <IncomeSettings
+            {withDrawer(<IncomeSettings
                 periodId={id}
-                isVisible={isVisibleIncomeSettings}
-                onClose={toggleIncomesVisibility}
                 incomes={incomes}
                 deleteIncome={deleteIncome}
                 addPeriodIncome={addPeriodIncome}
-            />
-
+            />, toggleIncomesVisibility, isVisibleIncomeSettings)}
         </>
     );
 };

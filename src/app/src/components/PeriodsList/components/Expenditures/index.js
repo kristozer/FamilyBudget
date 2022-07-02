@@ -14,7 +14,7 @@ const styles = {
     }
 };
 
-const Expenditures = ({ data, onExpenditureChange }) => {
+const Expenditures = ({ data, onExpenditureChange, onExpedintureDelete }) => {
     const [isVisibleExpenditureSettings, setIsVisibleExpenditureSettings] = useState(false);
     const [actualExpenditure, setActualExpenditure] = useState({});
 
@@ -29,6 +29,11 @@ const Expenditures = ({ data, onExpenditureChange }) => {
 
     const onExpedintureChangeLocal = (id, plannedToSpend, spentValue) => {
         onExpenditureChange(id, plannedToSpend, spentValue);
+        closeExpedintureSettings();
+    };
+
+    const onExpedintureDeleteLocal = id => {
+        onExpedintureDelete(id);
         closeExpedintureSettings();
     };
 
@@ -74,7 +79,8 @@ const Expenditures = ({ data, onExpenditureChange }) => {
             <Stack spacing={0.5}>
                 {createItems()}
             </Stack>
-            {withDrawer(<ExpenditureSettings expenditure={actualExpenditure} onChange={onExpedintureChangeLocal}/>, closeExpedintureSettings, isVisibleExpenditureSettings)}
+            {withDrawer(<ExpenditureSettings expenditure={actualExpenditure} onChange={onExpedintureChangeLocal}
+                                             onDelete={onExpedintureDeleteLocal}/>, closeExpedintureSettings, isVisibleExpenditureSettings)}
         </>);
 };
 

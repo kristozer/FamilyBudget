@@ -8,7 +8,7 @@ const styles = {
     }
 };
 
-const ExpenditureSettings = ({ expenditure, onChange }) => {
+const ExpenditureSettings = ({ expenditure, onChange, onDelete }) => {
     const [newPlannedToSpendValue, setPlannedToSpendValue] = useState(expenditure.plannedToSpendValue);
     const [newSpentValue, setSpentValue] = useState(expenditure.spentValue);
 
@@ -21,6 +21,7 @@ const ExpenditureSettings = ({ expenditure, onChange }) => {
                        onChange={onNewPlannedToSpendValue}/>
             <TextField label='Сумма' variant="standard" value={newSpentValue} onChange={onNewSpentValue}/>
             <Button variant="contained" onClick={() => onChange(expenditure.id, newPlannedToSpendValue, newSpentValue)}>Изменить</Button>
+            <Button variant="contained" onClick={() => onDelete(expenditure.id)}>Удалить</Button>
         </Stack>
     );
 };

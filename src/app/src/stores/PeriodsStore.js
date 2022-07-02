@@ -79,6 +79,13 @@ class PeriodsStore {
             expedinture.spentValue = newSpentValue;
         }
     };
-};
+
+    deleteExpenditure = id => {
+        const period = this.periods.find(p => p.expenditures.find(e => e.id === id));
+        if(period) {
+            period.expenditures = period.expenditures.filter(e => e.id !== id);
+        }
+    };
+}
 
 export default PeriodsStore;

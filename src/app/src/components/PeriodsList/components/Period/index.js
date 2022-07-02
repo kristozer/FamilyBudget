@@ -34,6 +34,7 @@ const Period = ({ data: { id, periodBegin, periodEnd, incomes, expenditures }, s
     const deleteIncome = (periodId, incomeId) => store.deletePeriodIncome(periodId, incomeId);
     const addPeriodIncome = (periodId, income) => store.addPeriodIncome(periodId, income);
     const onExpenditureChange = (id, plannedToSpend, spentValue) => store.changeExpenditure(id, plannedToSpend, spentValue);
+    const onExpedintureDelete = id => store.deleteExpenditure(id);
 
     return (
         <>
@@ -55,7 +56,7 @@ const Period = ({ data: { id, periodBegin, periodEnd, incomes, expenditures }, s
                         <EditIcon fontSize="small"/>
                     </IconButton>
                 </Box>
-                <Expenditures data={expenditures} onExpenditureChange={onExpenditureChange}/>
+                <Expenditures data={expenditures} onExpenditureChange={onExpenditureChange} onExpedintureDelete={onExpedintureDelete}/>
             </Paper>
             {withDrawer(<IncomeSettings
                 periodId={id}

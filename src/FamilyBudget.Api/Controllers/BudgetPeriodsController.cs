@@ -24,9 +24,16 @@ public class BudgetPeriodsController : ControllerBase
 
 
     [HttpGet]
+    [Route("GetAll")]
+    public async Task<IReadOnlyList<FinancialPeriod>> GetAll()
+    {
+        return await _financialPeriodService.GetAllAsync();
+    }
+    
+    [HttpGet]
     public async Task<IReadOnlyList<FinancialPeriod>> Get()
     {
-        return await _financialPeriodService.GetAll();
+        return await _financialPeriodService.GetSomeAsync(4);
     }
 
     [HttpPost]
@@ -34,7 +41,6 @@ public class BudgetPeriodsController : ControllerBase
     {
         var data = new FinancialPeriod
         {
-            Name = "Second",
             PeriodBegin = new DateTime(2022, 1, 1),
             PeriodEnd = new DateTime(2022, 6, 30),
             Incomes = new List<Income>

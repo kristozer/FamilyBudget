@@ -18,9 +18,14 @@ namespace FamilyBudget.Domain.Services
             _repository = finacialPeriodRepository;
         }
 
-        public async Task<IReadOnlyList<FinancialPeriod>> GetAll()
+        public Task<IReadOnlyList<FinancialPeriod>> GetAllAsync()
         {
-            return await _repository.GetWithSpecificationAsync(new FinancialPeriodWithExpendituresSpec());
+            return _repository.GetWithSpecificationAsync(new PeriodsWithInculdesSpec());
+        }
+
+        public Task<IReadOnlyList<FinancialPeriod>> GetSomeAsync(int takeCount)
+        {
+            return _repository.GetWithSpecificationAsync(new TakeActualPeriodsSpec(takeCount));
         }
 
         public async Task Save(FinancialPeriod period)

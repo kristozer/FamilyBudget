@@ -5,7 +5,6 @@ namespace FamilyBudget.Domain.Entities
 {
     public class FinancialPeriod : BaseEntity
     {
-        public string Name { get; set; }
         public DateTime PeriodBegin { get; set; }
         public DateTime PeriodEnd { get; set; }
         public List<Income> Incomes { get; set; }

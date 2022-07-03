@@ -19,7 +19,7 @@ class PeriodsStore {
     }
 
     fillPeriods = () => {
-        //const periods = await periodsListService.GetPeriods();
+        const periods = await periodsListService.GetPeriods();
         const testPeriods = [{
             id: 1,
             periodBegin: new Date('2022-01-01'),
@@ -48,7 +48,7 @@ class PeriodsStore {
         }];
 
         runInAction(() => {
-            this.periods = testPeriods;
+            this.periods = periods;
             this.showPeriods = true;
         })
     };

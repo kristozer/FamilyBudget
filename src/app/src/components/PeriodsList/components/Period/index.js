@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 
 import { Paper, Typography, IconButton, Box } from '@mui/material';
-import { Edit as EditIcon, Settings as SettingsIcon } from '@mui/icons-material';
+import { Edit as EditIcon} from '@mui/icons-material';
 import IncomeSettings from '../IncomeSettings';
 import Expenditures from '../Expenditures';
 import withDrawer from '../../../../hoc/withDrawer';
@@ -18,7 +18,7 @@ const styles = {
     }
 };
 
-const Period = ({ data: { id, periodBegin, periodEnd, incomes, expenditures }, store }) => {
+const Period = ({ data: { id, periodBegin, periodEnd, incomes, expenditures } }) => {
     const [isVisibleIncomeSettings, setIsVisibleIncomeSettings] = useState(false);
 
     const formatDate = (str) => {
@@ -31,19 +31,9 @@ const Period = ({ data: { id, periodBegin, periodEnd, incomes, expenditures }, s
         setIsVisibleIncomeSettings(!isVisibleIncomeSettings)
     };
 
-    const deleteIncome = (periodId, incomeId) => store.deletePeriodIncome(periodId, incomeId);
-    const addPeriodIncome = (periodId, income) => store.addPeriodIncome(periodId, income);
-    const onExpenditureChange = (id, plannedToSpend, spentValue) => store.changeExpenditure(id, plannedToSpend, spentValue);
-    const onExpedintureDelete = id => store.deleteExpenditure(id);
-
     return (
         <>
             <Paper style={styles.paper} elevation={3}>
-                <IconButton aria-label="edit" color="primary" size="small" component="span"
-                            style={{ position: 'absolute', right: '-10px', top: '-10px' }}
-                            onClick={() => console.log('click')}>
-                    <SettingsIcon fontSize="small"/>
-                </IconButton>
                 <Box>
                     <Typography variant='subtitle1' display='inline'>Период: {formatDate(periodBegin)}</Typography>
                     <Typography variant='subtitle1' display='inline'> - </Typography>
@@ -56,13 +46,11 @@ const Period = ({ data: { id, periodBegin, periodEnd, incomes, expenditures }, s
                         <EditIcon fontSize="small"/>
                     </IconButton>
                 </Box>
-                <Expenditures data={expenditures} onExpenditureChange={onExpenditureChange} onExpedintureDelete={onExpedintureDelete}/>
+                <Expenditures periodId={id} data={expenditures}/>
             </Paper>
             {withDrawer(<IncomeSettings
                 periodId={id}
                 incomes={incomes}
-                deleteIncome={deleteIncome}
-                addPeriodIncome={addPeriodIncome}
             />, toggleIncomesVisibility, isVisibleIncomeSettings)}
         </>
     );

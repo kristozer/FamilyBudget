@@ -16,7 +16,7 @@ const PeriodsList = ({ store }) => {
         );
     });
 
-    if(!store.showPeriods) {
+    if (!store.showPeriods) {
         return <CircularProgress/>;
     }
 

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Box, IconButton, Stack, Typography } from '@mui/material';
+import { inject, observer } from 'mobx-react';
+
+import { Box, Button, IconButton, Stack, Typography } from '@mui/material';
 import { Edit as EditIcon } from '@mui/icons-material';
 import withDrawer from '../../../../hoc/withDrawer';
 import ExpenditureSettings from '../ExpenditureSettings';
@@ -14,7 +16,7 @@ const styles = {
     }
 };
 
-const Expenditures = ({ data, onExpenditureChange, onExpedintureDelete }) => {
+const Expenditures = ({ store, periodId, data }) => {
     const [isVisibleExpenditureSettings, setIsVisibleExpenditureSettings] = useState(false);
     const [actualExpenditure, setActualExpenditure] = useState({});
 
@@ -23,18 +25,18 @@ const Expenditures = ({ data, onExpenditureChange, onExpedintureDelete }) => {
         setIsVisibleExpenditureSettings(true);
     };
 
-    const closeExpedintureSettings = () => {
+    const closeExpenditureSettings = () => {
         setIsVisibleExpenditureSettings(false);
     };
 
-    const onExpedintureChangeLocal = (id, plannedToSpend, spentValue) => {
-        onExpenditureChange(id, plannedToSpend, spentValue);
-        closeExpedintureSettings();
+    const onExpenditureChange = (expenditure) => {
+        store.changeExpenditure(periodId, expenditure);
+        closeExpenditureSettings();
     };
 
-    const onExpedintureDeleteLocal = id => {
-        onExpedintureDelete(id);
-        closeExpedintureSettings();
+    const onExpenditureDelete = id => {
+        store.deleteExpenditure(id);
+        closeExpenditureSettings();
     };
 
     if (!data) {
@@ -74,14 +76,21 @@ const Expenditures = ({ data, onExpenditureChange, onExpedintureDelete }) => {
         });
     };
 
+    const spentSum = () => {
+        return data.reduce((prev, next) => prev + next.spentValue, 0);
+    }
+
     return (
         <>
             <Stack spacing={0.5}>
                 {createItems()}
+                <Typography variant='subtitle1' display='inline'>Общий расход: {spentSum()}</Typography>
+                <Button variant="contained" onClick={() => openExpenditureSettings({id:0})}>Добавить расход</Button>
             </Stack>
-            {withDrawer(<ExpenditureSettings expenditure={actualExpenditure} onChange={onExpedintureChangeLocal}
-                                             onDelete={onExpedintureDeleteLocal}/>, closeExpedintureSettings, isVisibleExpenditureSettings)}
+            {withDrawer(<ExpenditureSettings expenditure={actualExpenditure} onChange={onExpenditureChange}
+                                             onDelete={onExpenditureDelete}/>,
+                closeExpenditureSettings, isVisibleExpenditureSettings)}
         </>);
 };
 
-export default Expenditures;
+export default inject(`store`)(observer(Expenditures));

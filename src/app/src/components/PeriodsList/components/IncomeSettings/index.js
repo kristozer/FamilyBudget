@@ -1,37 +1,34 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types'
-import { Box, Button, Stack, TextField } from '@mui/material';
+import { inject, observer } from 'mobx-react';
+
+import { Button, Stack, TextField } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-const IncomeSettings = ({ periodId, incomes, deleteIncome, addPeriodIncome }) => {
+const IncomeSettings = ({ store, periodId, incomes }) => {
     const [newIncomeName, setNewIncomeName] = useState('');
-    const [newIncomeValue, setNewIncomeValue] = useState();
+    const [newIncomeValue, setNewIncomeValue] = useState('');
 
     const list = () => (
-        <Box
-            sx={{ width: 250 }}
-            role="presentation"
-        >
-            <List>
-                {incomes.map(income => (
-                    <ListItem button key={income.id}>
-                        <ListItemText primary={income.name}/>
-                        <ListItemText primary={income.value}/>
-                        <ListItemIcon onClick={() => deleteIncome(periodId, income.id)}>
-                            <DeleteForeverIcon/>
-                        </ListItemIcon>
-                    </ListItem>
-                ))}
-            </List>
-        </Box>
+        <List>
+            {incomes.map(income => (
+                <ListItem button key={income.id}>
+                    <ListItemText primary={income.name}/>
+                    <ListItemText primary={income.value}/>
+                    <ListItemIcon onClick={() => store.deletePeriodIncome(periodId, income.id)}>
+                        <DeleteForeverIcon/>
+                    </ListItemIcon>
+                </ListItem>
+            ))}
+        </List>
     );
 
     const addPeriodIncomeFunc = () => {
-        addPeriodIncome(periodId, { name: newIncomeName, value: newIncomeValue });
+        store.addPeriodIncome(periodId, { name: newIncomeName, value: newIncomeValue || 0 });
         setNewIncomeName('');
         setNewIncomeValue('');
     };
@@ -52,7 +49,8 @@ const IncomeSettings = ({ periodId, incomes, deleteIncome, addPeriodIncome }) =>
 };
 
 IncomeSettings.propTypes = {
+    store: PropTypes.object,
     periodId: PropTypes.number
 };
 
-export default IncomeSettings;
+export default inject(`store`)(observer(IncomeSettings));

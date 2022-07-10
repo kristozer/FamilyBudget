@@ -22,9 +22,22 @@ public class IncomesController : ControllerBase
     }
 
     [HttpGet("Get")]
-    public async Task<IReadOnlyList<IncomeView>> GetAsync(int periodId)
+    public async Task<IReadOnlyList<IncomeView>> GetAsync([FromQuery] int periodId)
     {
         var result = await _incomesService.GetAsync(periodId);
         return _mapper.Map<IReadOnlyList<Income>, IReadOnlyList<IncomeView>>(result);
+    }
+
+    [HttpPost("SaveIncome")]
+    public async Task SaveIncomeAsync([FromBody] IncomeView income)
+    {
+        var model = _mapper.Map<IncomeView, Income>(income);
+        await _incomesService.SaveAsync(model);
+    }
+
+    [HttpPost("DeleteIncome")]
+    public async Task<bool> DeleteIncomeAsync([FromQuery] int id)
+    {
+        return await _incomesService.DeleteByIdAsync(id);
     }
 }

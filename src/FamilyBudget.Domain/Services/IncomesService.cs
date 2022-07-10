@@ -21,4 +21,14 @@ public class IncomesService : IIncomesService
     {
         return _repository.GetWithSpecificationAsync(new IncomesByPeriodIdSpec(periodId));
     }
+
+    public Task SaveAsync(Income income)
+    {
+        return _repository.AddAsync(income);
+    }
+
+    public Task<bool> DeleteByIdAsync(int id)
+    {
+        return _repository.DeleteByIdAsync(id);
+    }
 }

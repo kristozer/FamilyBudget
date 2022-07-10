@@ -42,6 +42,20 @@ namespace FamilyBudget.Infrastructure.DataAccess
             _appDbContext.Set<T>().Remove(entity);
             await _appDbContext.SaveChangesAsync();
         }
+
+        public async Task<bool> DeleteByIdAsync(int id)
+        {
+            var entity = _appDbContext.Set<T>().FirstOrDefault(e => e.Id == id);
+            if (entity is null)
+            {
+                return false;
+            }
+
+            _appDbContext.Set<T>().Remove(entity);
+            await _appDbContext.SaveChangesAsync();
+
+            return true;
+        }
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationExecutor<T>.GetQuery(_appDbContext.Set<T>().AsQueryable(), spec);

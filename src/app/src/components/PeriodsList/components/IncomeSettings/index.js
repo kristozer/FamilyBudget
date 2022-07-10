@@ -28,7 +28,7 @@ const IncomeSettings = ({ store, periodId, incomes }) => {
     );
 
     const addPeriodIncomeFunc = () => {
-        store.addPeriodIncome(periodId, { name: newIncomeName, value: newIncomeValue || 0 });
+        store.addPeriodIncome({ periodId, name: newIncomeName, value: newIncomeValue || 0 });
         setNewIncomeName('');
         setNewIncomeValue('');
     };

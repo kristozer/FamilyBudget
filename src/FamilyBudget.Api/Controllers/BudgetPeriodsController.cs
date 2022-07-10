@@ -41,15 +41,15 @@ public class BudgetPeriodsController : ControllerBase
     {
         var data = new FinancialPeriod
         {
-            PeriodBegin = new DateTime(2022, 1, 1),
-            PeriodEnd = new DateTime(2022, 6, 30),
+            PeriodBegin = new DateTime(2022, 7, 1),
+            PeriodEnd = new DateTime(2022, 7, 15),
             Incomes = new List<Income>
             {
                 new Income
                 {
                     Name = "First",
                     Value = 12,
-                    FinancialPeriodId = 2
+                    FinancialPeriodId = 1
                 }
             },
             Expenditures = new List<Expenditure>()

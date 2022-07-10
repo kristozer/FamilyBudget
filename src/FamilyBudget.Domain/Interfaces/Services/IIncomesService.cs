@@ -7,4 +7,6 @@ namespace FamilyBudget.Domain.Interfaces.Services;
 public interface IIncomesService
 {
     Task<IReadOnlyList<Income>> GetAsync(int periodId);
+    Task SaveAsync(Income income);
+    Task<bool> DeleteByIdAsync(int id);
 }

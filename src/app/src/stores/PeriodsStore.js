@@ -1,5 +1,8 @@
 import { makeObservable, observable, action, runInAction } from 'mobx';
 
+import { getPeriods } from '../services/periodsService';
+import { getIncomes, saveIncome, deleteIncome } from '../services/incomesService';
+
 
 class PeriodsStore {
     periods = [];
@@ -18,34 +21,8 @@ class PeriodsStore {
         });
     }
 
-    fillPeriods = () => {
-        const periods = await periodsListService.GetPeriods();
-        const testPeriods = [{
-            id: 1,
-            periodBegin: new Date('2022-01-01'),
-            periodEnd: new Date('2022-06-30'),
-            incomes: [{
-                id: 1,
-                name: `Зарплата`,
-                value: 100
-            },
-                {
-                    id: 2,
-                    name: `Подарки`,
-                    value: 5
-                }],
-            expenditures: [{
-                id: 1,
-                name: `Еда`,
-                plannedToSpendValue: 5,
-                spentValue: 5
-            },{
-                id: 2,
-                name: `Одежда`,
-                plannedToSpendValue: 5,
-                spentValue: 15
-            }]
-        }];
+    fillPeriods = async () => {
+        const periods = await getPeriods();
 
         runInAction(() => {
             this.periods = periods;
@@ -77,22 +54,27 @@ class PeriodsStore {
         }
     };
 
-    deletePeriodIncome = (periodId, incomeId) => {
+    deletePeriodIncome = async (periodId, incomeId) => {
         const period = this.periods.find(i => i.id === periodId);
         if (period) {
-            period.incomes = period.incomes.filter(i => i.id !== incomeId);
+            await deleteIncome(incomeId);
+            const newIncomes = await getIncomes(periodId);
+
+            runInAction(() => {
+                period.incomes = newIncomes;
+            })
         }
     };
 
-    addPeriodIncome = (periodId, income) => {
-        const period = this.periods.find(i => i.id === periodId);
+    addPeriodIncome = async (income) => {
+        const period = this.periods.find(i => i.id === income.periodId);
         if (period) {
-            const maxIncomeId = Math.max(...this.periods[this.periods.length-1].incomes.map(x => x.id), 0);
-            period.incomes.push({
-                id: maxIncomeId+1,
-                name: income.name,
-                value: income.value
-            });
+            await saveIncome(income);
+            const newIncomes = await getIncomes(income.periodId);
+
+            runInAction(() => {
+                period.incomes = newIncomes;
+            })
         }
     };
 

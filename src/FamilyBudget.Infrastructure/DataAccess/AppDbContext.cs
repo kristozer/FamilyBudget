@@ -23,7 +23,7 @@ namespace FamilyBudget.Infrastructure.DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql(_configuration.GetConnectionString("DefaultConnection"));
+            optionsBuilder.UseSqlite(_configuration.GetConnectionString("DefaultConnection"));
             base.OnConfiguring(optionsBuilder);
         }
 

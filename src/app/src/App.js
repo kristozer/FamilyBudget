@@ -23,7 +23,7 @@ class App extends Component {
     closePeriodAdd = () => this.setState({isAddPeriodVisible: false});
 
     async componentDidMount() {
-        this.periodsStore.fillPeriods();
+        await this.periodsStore.fillPeriods();
     }
 
     render() {

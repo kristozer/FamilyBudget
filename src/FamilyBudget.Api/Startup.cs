@@ -27,6 +27,7 @@ namespace FamilyBudget.Api
             services.AddScoped(typeof(IRepositoryAsync<>), typeof(Repository<>));
             services.AddScoped(typeof(IFinancialPeriodService), typeof(FinancialPeriodService));
             services.AddScoped(typeof(IIncomesService), typeof(IncomesService));
+            services.AddScoped(typeof(IExpendituresService), typeof(ExpendituresService));
             
             services.AddAutoMapper(typeof(AppMappingProfile));
 

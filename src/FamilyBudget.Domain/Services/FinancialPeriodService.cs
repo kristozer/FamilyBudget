@@ -28,9 +28,18 @@ namespace FamilyBudget.Domain.Services
             return _repository.GetWithSpecificationAsync(new TakeActualPeriodsSpec(takeCount));
         }
 
-        public async Task Save(FinancialPeriod period)
+        public async Task SaveAsync(FinancialPeriod period)
         {
             await _repository.AddAsync(period);
+        }
+        public async Task UpdateAsync(FinancialPeriod period)
+        {
+            await _repository.AddAsync(period);
+        }
+
+        public Task<bool> DeleteByIdAsync(int id)
+        {
+            return _repository.DeleteByIdAsync(id);
         }
     }
 }

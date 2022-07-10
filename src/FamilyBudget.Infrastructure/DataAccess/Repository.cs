@@ -45,7 +45,7 @@ namespace FamilyBudget.Infrastructure.DataAccess
 
         public async Task<bool> DeleteByIdAsync(int id)
         {
-            var entity = _appDbContext.Set<T>().FirstOrDefault(e => e.Id == id);
+            var entity = await _appDbContext.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
             if (entity is null)
             {
                 return false;

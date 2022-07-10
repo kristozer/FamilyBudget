@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { inject, observer } from 'mobx-react';
 
 import { Paper, Typography, IconButton, Box } from '@mui/material';
-import { Edit as EditIcon} from '@mui/icons-material';
+import { Edit as EditIcon, DeleteForever as DeleteForeverIcon } from '@mui/icons-material';
 import IncomeSettings from '../IncomeSettings';
 import Expenditures from '../Expenditures';
 import withDrawer from '../../../../hoc/withDrawer';
@@ -18,7 +18,7 @@ const styles = {
     }
 };
 
-const Period = ({ data: { id, periodBegin, periodEnd, incomes, expenditures } }) => {
+const Period = ({ data: { id, periodBegin, periodEnd, incomes, expenditures }, store }) => {
     const [isVisibleIncomeSettings, setIsVisibleIncomeSettings] = useState(false);
 
     const formatDate = (str) => {
@@ -31,9 +31,15 @@ const Period = ({ data: { id, periodBegin, periodEnd, incomes, expenditures } })
         setIsVisibleIncomeSettings(!isVisibleIncomeSettings)
     };
 
+    const deletePeriod = () => store.deletePeriod(id);
+
     return (
         <>
             <Paper style={styles.paper} elevation={3}>
+                <IconButton aria-label="edit" color="primary" size="small" component="span"
+                            onClick={deletePeriod} style={{ position: 'absolute', right: '-10px', top: '0' }}>
+                    <DeleteForeverIcon fontSize="small"/>
+                </IconButton>
                 <Box>
                     <Typography variant='subtitle1' display='inline'>Период: {formatDate(periodBegin)}</Typography>
                     <Typography variant='subtitle1' display='inline'> - </Typography>

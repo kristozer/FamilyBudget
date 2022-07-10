@@ -8,6 +8,8 @@ namespace FamilyBudget.Domain.Interfaces.Services
     {
         Task<IReadOnlyList<FinancialPeriod>> GetAllAsync();
         Task<IReadOnlyList<FinancialPeriod>> GetSomeAsync(int takeCount);
-        Task Save(FinancialPeriod period);
+        Task SaveAsync(FinancialPeriod period);
+        Task UpdateAsync(FinancialPeriod period);
+        Task<bool> DeleteByIdAsync(int id);
     }
 }

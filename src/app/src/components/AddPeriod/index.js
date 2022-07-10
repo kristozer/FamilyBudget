@@ -13,7 +13,9 @@ const AddPeriod = ({ store, onAdd }) => {
         store.changePeriod({
             id: 0,
             periodBegin: new Date(periodBeg),
-            periodEnd: new Date(periodEnd)
+            periodEnd: new Date(periodEnd),
+            incomes: [],
+            expenditures: []
         });
         onAdd();
     }

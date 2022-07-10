@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
+using FamilyBudget.Api.ViewModels;
 using FamilyBudget.Domain.Entities;
 using FamilyBudget.Domain.Interfaces.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -14,47 +16,46 @@ public class BudgetPeriodsController : ControllerBase
 {
     private readonly ILogger<BudgetPeriodsController> _logger;
     private readonly IFinancialPeriodService _financialPeriodService;
+    private readonly IMapper _mapper;
 
     public BudgetPeriodsController(ILogger<BudgetPeriodsController> logger,
-        IFinancialPeriodService financialPeriodService)
+        IFinancialPeriodService financialPeriodService, IMapper mapper)
     {
         _logger = logger;
         _financialPeriodService = financialPeriodService;
+        _mapper = mapper;
     }
 
 
     [HttpGet]
     [Route("GetAll")]
-    public async Task<IReadOnlyList<FinancialPeriod>> GetAll()
+    public async Task<IReadOnlyList<FinancialPeriodView>> GetAll()
     {
-        return await _financialPeriodService.GetAllAsync();
+        var result = await _financialPeriodService.GetAllAsync();
+        return _mapper.Map<IReadOnlyList<FinancialPeriod>, IReadOnlyList<FinancialPeriodView>>(result);
     }
     
     [HttpGet]
-    public async Task<IReadOnlyList<FinancialPeriod>> Get()
+    public async Task<IReadOnlyList<FinancialPeriodView>> Get()
     {
-        return await _financialPeriodService.GetSomeAsync(4);
+        var result = await _financialPeriodService.GetSomeAsync(4);
+        return _mapper.Map<IReadOnlyList<FinancialPeriod>, IReadOnlyList<FinancialPeriodView>>(result);
     }
 
-    [HttpPost]
-    public async Task Post()
+    [HttpPost("SavePeriod")]
+    public async Task SavePeriodAsync(FinancialPeriodView periodView)
     {
-        var data = new FinancialPeriod
-        {
-            PeriodBegin = new DateTime(2022, 7, 1),
-            PeriodEnd = new DateTime(2022, 7, 15),
-            Incomes = new List<Income>
-            {
-                new Income
-                {
-                    Name = "First",
-                    Value = 12,
-                    FinancialPeriodId = 1
-                }
-            },
-            Expenditures = new List<Expenditure>()
-        };
+        var model = _mapper.Map<FinancialPeriodView, FinancialPeriod>(periodView);
 
-        await _financialPeriodService.Save(data);
+        var task = periodView.Id == 0
+            ? _financialPeriodService.SaveAsync(model)
+            : _financialPeriodService.UpdateAsync(model);
+        await task;
+    }
+    
+    [HttpPost("DeletePeriod")]
+    public async Task<bool> DeletePeriodAsync([FromQuery] int id)
+    {
+        return await _financialPeriodService.DeleteByIdAsync(id);
     }
 }

@@ -30,12 +30,12 @@ const Expenditures = ({ store, periodId, data }) => {
     };
 
     const onExpenditureChange = (expenditure) => {
-        store.changeExpenditure(periodId, expenditure);
+        store.changeExpenditure({ ...expenditure, periodId });
         closeExpenditureSettings();
     };
 
     const onExpenditureDelete = id => {
-        store.deleteExpenditure(id);
+        store.deleteExpenditure(periodId, id);
         closeExpenditureSettings();
     };
 
@@ -85,7 +85,7 @@ const Expenditures = ({ store, periodId, data }) => {
             <Stack spacing={0.5}>
                 {createItems()}
                 <Typography variant='subtitle1' display='inline'>Общий расход: {spentSum()}</Typography>
-                <Button variant="contained" onClick={() => openExpenditureSettings({id:0})}>Добавить расход</Button>
+                <Button variant="contained" onClick={() => openExpenditureSettings({ id:0 })}>Добавить расход</Button>
             </Stack>
             {withDrawer(<ExpenditureSettings expenditure={actualExpenditure} onChange={onExpenditureChange}
                                              onDelete={onExpenditureDelete}/>,

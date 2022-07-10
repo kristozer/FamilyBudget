@@ -1,7 +1,8 @@
 import { makeObservable, observable, action, runInAction } from 'mobx';
 
-import { getPeriods } from '../services/periodsService';
+import { getPeriods, savePeriod, deletePeriod } from '../services/periodsService';
 import { getIncomes, saveIncome, deleteIncome } from '../services/incomesService';
+import { getExpenditures, saveExpenditure, deleteExpenditure } from '../services/expendituresService';
 
 
 class PeriodsStore {
@@ -30,28 +31,14 @@ class PeriodsStore {
         })
     };
 
-    changePeriod = (period) => {
-        if (period.id === 0) {
-            const maxPeriodId = Math.max(...this.periods.map(x => x.id), 0);
-            this.periods.push({
-                id: maxPeriodId + 1,
-                name: period.name,
-                periodBegin: period.periodBegin,
-                periodEnd: period.periodEnd,
-                incomes:[],
-                expenditures:[]
-            });
+    changePeriod = async period => {
+        await savePeriod(period)
+        await this.fillPeriods();
+    };
 
-            return;
-        }
-
-
-        const currentPeriod = this.periods.find(i => i.id === period.id);
-        if (currentPeriod) {
-            currentPeriod.name = period.name;
-            currentPeriod.periodBegin = period.periodBegin;
-            currentPeriod.periodEnd = period.periodEnd;
-        }
+    deletePeriod = async id => {
+        await deletePeriod(id);
+        await this.fillPeriods();
     };
 
     deletePeriodIncome = async (periodId, incomeId) => {
@@ -66,7 +53,7 @@ class PeriodsStore {
         }
     };
 
-    addPeriodIncome = async (income) => {
+    addPeriodIncome = async income => {
         const period = this.periods.find(i => i.id === income.periodId);
         if (period) {
             await saveIncome(income);
@@ -78,34 +65,27 @@ class PeriodsStore {
         }
     };
 
-    changeExpenditure = (periodId, expenditure) => {
-        if(expenditure.id === 0) {
-            const period = this.periods.find(i => i.id === periodId);
-            if (period) {
-                const maxExpenditureId = Math.max(...this.periods.flatMap(p => p.expenditures).map(x => x.id), 0);
-                period.expenditures.push({
-                    id: maxExpenditureId+1,
-                    name: expenditure.name,
-                    plannedToSpendValue: expenditure.plannedToSpendValue,
-                    spentValue: expenditure.spentValue
-                });
-            }
+    changeExpenditure = async expenditure => {
+        const period = this.periods.find(i => i.id === expenditure.periodId);
+        if (period) {
+            await saveExpenditure(expenditure);
+            const newExpenditures = await getExpenditures(period.id);
 
-            return;
-        }
-
-        const currentExpenditure = this.periods.flatMap(p => p.expenditures).find(e => e.id === expenditure.id)
-        if (currentExpenditure) {
-            currentExpenditure.name = expenditure.name;
-            currentExpenditure.plannedToSpendValue = expenditure.plannedToSpendValue;
-            currentExpenditure.spentValue = expenditure.spentValue;
+            runInAction(() => {
+                period.expenditures = newExpenditures;
+            })
         }
     };
 
-    deleteExpenditure = id => {
-        const period = this.periods.find(p => p.expenditures.find(e => e.id === id));
-        if(period) {
-            period.expenditures = period.expenditures.filter(e => e.id !== id);
+    deleteExpenditure = async (periodId, id) => {
+        const period = this.periods.find(i => i.id === periodId);
+        if (period) {
+            await deleteExpenditure(id);
+            const newExpenditures = await getExpenditures(periodId);
+
+            runInAction(() => {
+                period.expenditures = newExpenditures;
+            })
         }
     };
 }

@@ -352,3 +352,4 @@ MigrationBackup/
 # Rider config folder
 .idea/
 src/FamilyBudgetData/
+src/FamilyBudget.Api/ClientApp/build/
